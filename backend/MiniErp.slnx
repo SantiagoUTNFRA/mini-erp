@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MiniErp.Api/MiniErp.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MiniErp.IntegrationTests/MiniErp.IntegrationTests.csproj" />
+    <Project Path="tests/MiniErp.UnitTests/MiniErp.UnitTests.csproj" />
+  </Folder>
+</Solution>

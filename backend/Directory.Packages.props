@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <!-- Versiones NuGet centralizadas: los .csproj referencian paquetes sin Version. -->
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.1" />
+  </ItemGroup>
+</Project>

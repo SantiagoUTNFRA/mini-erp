@@ -30,7 +30,7 @@ dotnet format --verify-no-changes                         # chequeo de formato (
 Hexagonal (puertos y adaptadores) en proyectos separados.
 Decisión y motivos en `docs/adr/0002-reemplazabilidad-arquitectura-hexagonal.md` (raíz del repo).
 
-Proyectos (hoy solo existe `MiniErp.Api`; el resto se crea con el primer módulo):
+Proyectos (creados y referenciados; todavía sin código):
 ```
 src/MiniErp.Domain              # entidades y reglas de negocio; no depende de nada
 src/MiniErp.Application         # casos de uso y puertos (interfaces); → Domain
@@ -41,6 +41,7 @@ src/MiniErp.Api                 # adaptador HTTP y composition root; → Applica
 - Ningún tipo de un adaptador (`DbContext`, EF Core, entidades de persistencia) aparece en `Domain` ni en `Application`.
 - Puertos definidos por caso de uso (p. ej. `ICustomerRepository`), no un repositorio genérico sobre `DbContext`.
 - Reemplazar una tecnología = escribir otro adaptador y cambiar su registro en `MiniErp.Api`, sin tocar `Domain` ni `Application`.
+- `tests/MiniErp.UnitTests/Architecture/DependencyRuleTests.cs` hace cumplir esta regla sobre las referencias compiladas. Si falla, se corrige el código, no el test. Límite conocido: las constantes se copian en tiempo de compilación y no dejan referencia.
 
 Carpetas dentro de cada proyecto: a definir con el primer módulo.
 
@@ -62,8 +63,12 @@ tests/                         # un proyecto de tests por tipo (unit, integratio
 - La solución usa formato `.slnx`: `dotnet sln MiniErp.slnx add <ruta.csproj>`.
 - Tests sobre MTP, no VSTest: los proyectos de test son `OutputType=Exe` y `using Xunit` es global
   (`<Using Include="Xunit" />`).
-- `MiniErp.IntegrationTests` todavía no referencia la API ni usa `WebApplicationFactory`.
-- `.editorconfig` está en la raíz del repo, no en `backend/`.
+- Integration tests con `WebApplicationFactory<Program>` (corre en Development). No hace falta
+  `public partial class Program`: en .NET 10 `Program` ya es público.
+- xUnit v3: pasar `TestContext.Current.CancellationToken` a las llamadas async en tests; si no, el
+  analizador emite un warning (`xUnit1051`) y `TreatWarningsAsErrors` rompe el build.
+- `.editorconfig` está en la raíz del repo, no en `backend/`. `dotnet build` no aplica el estilo:
+  solo `dotnet format` lo detecta (p. ej. grupos de `using` separados por línea en blanco).
 
 ## Convenciones del proyecto
 - Program.cs solo compone (DI, middleware, mapeo de endpoints); la lógica va fuera.

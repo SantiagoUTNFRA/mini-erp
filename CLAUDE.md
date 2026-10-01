@@ -17,7 +17,7 @@ frontend/         # React; todavía no existe, se agregará después
 
 ## Estado actual
 
-- Backend: scaffolding inicial. `MiniErp.Api` todavía es la plantilla de ASP.NET Core (endpoint `/weatherforecast`) y los tests son placeholders.
+- Backend: proyectos de la arquitectura hexagonal creados y referenciados, todavía vacíos (sin endpoints ni entidades). Tests de arquitectura y un smoke test de integración en verde. EF Core y MySQL aún no instalados.
 - Frontend: no creado.
 
 ## Arquitectura

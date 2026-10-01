@@ -6,6 +6,7 @@ la consumirá el frontend React del monorepo.
 
 ## Stack
 - .NET 10, ASP.NET Core Minimal APIs, OpenAPI nativo (`Microsoft.AspNetCore.OpenApi`).
+- Persistencia (decidida en ADR-0003, aún no instalada): MySQL con EF Core 10 y el proveedor `MySql.EntityFrameworkCore` (Oracle).
 - Tests: xUnit v3 sobre Microsoft.Testing.Platform (MTP).
 - Versiones de paquetes centralizadas en `Directory.Packages.props`.
 
@@ -26,10 +27,22 @@ dotnet format --verify-no-changes                         # chequeo de formato (
 - `src/MiniErp.Api/MiniErp.Api.http` sirve para probar endpoints desde el editor.
 
 ## Arquitectura
-Capas simples en un solo proyecto (`MiniErp.Api`).
-Decisión y motivos en `docs/adr/0001-arquitectura.md` (raíz del repo).
+Hexagonal (puertos y adaptadores) en proyectos separados.
+Decisión y motivos en `docs/adr/0002-reemplazabilidad-arquitectura-hexagonal.md` (raíz del repo).
 
-Carpetas dentro de `MiniErp.Api`: a definir con el primer módulo.
+Proyectos (hoy solo existe `MiniErp.Api`; el resto se crea con el primer módulo):
+```
+src/MiniErp.Domain              # entidades y reglas de negocio; no depende de nada
+src/MiniErp.Application         # casos de uso y puertos (interfaces); → Domain
+src/MiniErp.Persistence.EfCore  # adaptador de persistencia; → Application, Domain
+src/MiniErp.Api                 # adaptador HTTP y composition root; → Application, Domain
+                                #   y a los adaptadores solo para registrarlos en DI
+```
+- Ningún tipo de un adaptador (`DbContext`, EF Core, entidades de persistencia) aparece en `Domain` ni en `Application`.
+- Puertos definidos por caso de uso (p. ej. `ICustomerRepository`), no un repositorio genérico sobre `DbContext`.
+- Reemplazar una tecnología = escribir otro adaptador y cambiar su registro en `MiniErp.Api`, sin tocar `Domain` ni `Application`.
+
+Carpetas dentro de cada proyecto: a definir con el primer módulo.
 
 Fijo en cualquier arquitectura:
 ```

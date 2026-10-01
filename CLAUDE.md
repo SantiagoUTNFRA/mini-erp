@@ -2,6 +2,10 @@
 
 ERP didáctico para gestionar clientes, productos y facturas. Monorepo con un backend .NET y, más adelante, un frontend React.
 
+## Objetivo de diseño: reemplazabilidad
+
+Cada tecnología (base de datos, ORM, frontend) tiene que poder reemplazarse con el menor costo posible; esas migraciones son un experimento para medir qué tan bien las ejecuta un agente de IA. Al diseñar o implementar, ninguna tecnología concreta se filtra fuera de su adaptador (ver ADR-0002).
+
 ## Estructura
 
 ```
@@ -18,4 +22,4 @@ frontend/         # React; todavía no existe, se agregará después
 
 ## Arquitectura
 
-Capas simples en un solo proyecto (`MiniErp.Api`). Decisión y motivos en [docs/adr/0001-arquitectura.md](docs/adr/0001-arquitectura.md).
+Hexagonal (puertos y adaptadores) en proyectos separados: [ADR-0002](docs/adr/0002-reemplazabilidad-arquitectura-hexagonal.md), que reemplaza al ADR-0001. Persistencia con MySQL y EF Core: [ADR-0003](docs/adr/0003-persistencia-mysql-ef-core.md). Los ADR aceptados no se editan; si una decisión cambia, se escribe uno nuevo que lo reemplaza.

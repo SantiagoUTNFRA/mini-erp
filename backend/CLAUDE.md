@@ -7,6 +7,8 @@ la consumirá el frontend React del monorepo.
 ## Stack
 - .NET 10, ASP.NET Core Minimal APIs, OpenAPI nativo (`Microsoft.AspNetCore.OpenApi`).
 - Persistencia (decidida en ADR-0003, aún no instalada): MySQL con EF Core 10 y el proveedor `MySql.EntityFrameworkCore` (Oracle).
+  MySQL local corre con Docker Compose desde la raíz del repo (ver `CLAUDE.md` raíz); el connection
+  string va en `dotnet user-secrets` del proyecto `MiniErp.Api`, nunca en `appsettings*.json`.
 - Tests: xUnit v3 sobre Microsoft.Testing.Platform (MTP).
 - Versiones de paquetes centralizadas en `Directory.Packages.props`.
 

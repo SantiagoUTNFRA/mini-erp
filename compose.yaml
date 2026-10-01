@@ -1,0 +1,27 @@
+# Entorno local de mini-erp (ADR-0004). Credenciales en .env (copiar de .env.example).
+name: mini-erp
+
+services:
+  mysql:
+    image: mysql:9.7 # LTS; fijada a la minor para que no cambie sin decidirlo
+    environment:
+      # ":?" corta el arranque con un error claro si falta la variable en .env
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?definir en .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-minierp}
+      MYSQL_USER: ${MYSQL_USER:-minierp}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?definir en .env}
+    ports:
+      - "127.0.0.1:${MYSQL_PORT:-3306}:3306" # solo accesible desde esta máquina
+    volumes:
+      - mysql-data:/var/lib/mysql # los datos sobreviven a "docker compose down"
+    healthcheck:
+      # Ping por TCP: durante la inicialización MySQL solo escucha por socket, así que "healthy"
+      # significa que ya acepta conexiones de la API. "$$" evita que Compose interpole la variable.
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysqladmin ping -h 127.0.0.1 -u root --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+volumes:
+  mysql-data:

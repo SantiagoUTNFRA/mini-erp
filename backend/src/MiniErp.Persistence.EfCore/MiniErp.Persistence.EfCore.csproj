@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiniErp.Application\MiniErp.Application.csproj" />
+    <ProjectReference Include="..\MiniErp.Domain\MiniErp.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

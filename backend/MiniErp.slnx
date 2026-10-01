@@ -1,6 +1,9 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/MiniErp.Api/MiniErp.Api.csproj" />
+    <Project Path="src/MiniErp.Application/MiniErp.Application.csproj" />
+    <Project Path="src/MiniErp.Domain/MiniErp.Domain.csproj" />
+    <Project Path="src/MiniErp.Persistence.EfCore/MiniErp.Persistence.EfCore.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/MiniErp.IntegrationTests/MiniErp.IntegrationTests.csproj" />

@@ -7,4 +7,10 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MiniErp.Application\MiniErp.Application.csproj" />
+    <ProjectReference Include="..\MiniErp.Domain\MiniErp.Domain.csproj" />
+    <ProjectReference Include="..\MiniErp.Persistence.EfCore\MiniErp.Persistence.EfCore.csproj" />
+  </ItemGroup>
+
 </Project>

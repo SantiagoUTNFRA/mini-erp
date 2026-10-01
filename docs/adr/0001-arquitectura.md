@@ -1,6 +1,6 @@
 # ADR 0001: Arquitectura de mini-erp
 
-- Estado: Aceptada
+- Estado: Reemplazada por ADR-0002
 - Fecha: 2026-10-01
 
 ## Contexto

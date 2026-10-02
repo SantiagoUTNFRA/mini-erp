@@ -1,10 +1,10 @@
 using System.Net;
 
-using Microsoft.AspNetCore.Mvc.Testing;
+using MiniErp.IntegrationTests.Infrastructure;
 
 namespace MiniErp.IntegrationTests;
 
-public class OpenApiTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+public class OpenApiTests(MiniErpApiFactory factory)
 {
     [Fact]
     public async Task GetOpenApiDocument_InDevelopment_ReturnsOk()

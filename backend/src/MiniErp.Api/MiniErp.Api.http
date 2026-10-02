@@ -1,1 +1,69 @@
 @MiniErp.Api_HostAddress = http://localhost:5014
+
+# Validation scenarios from specs/001-gestion-clientes/quickstart.md, section 2.
+
+### 1. Create a customer (US1-1): 201 with Location; taxId normalized to 20123456786
+# @name createCustomer
+POST {{MiniErp.Api_HostAddress}}/api/customers
+Content-Type: application/json
+
+{
+  "legalName": "Pérez, Juan",
+  "taxId": "20-12345678-6",
+  "vatCondition": "finalConsumer",
+  "email": "juan@example.com",
+  "phone": "+54 11 4321-5678",
+  "address": "Av. Siempre Viva 742"
+}
+
+### 2. Same tax id without separators (US1-2): 409 "Customer already exists"
+POST {{MiniErp.Api_HostAddress}}/api/customers
+Content-Type: application/json
+
+{
+  "legalName": "Pérez, Juan",
+  "taxId": "20123456786",
+  "vatCondition": "finalConsumer"
+}
+
+### 3. Several invalid fields (US1-3, US1-4): one 400 with taxId, email and legalName
+POST {{MiniErp.Api_HostAddress}}/api/customers
+Content-Type: application/json
+
+{
+  "taxId": "20-12345678-5",
+  "vatCondition": "finalConsumer",
+  "email": "foo"
+}
+
+### 4. List customers (US2-1): 200, ordered by legal name, with totalCount
+GET {{MiniErp.Api_HostAddress}}/api/customers
+
+### 5. Page size over the maximum (FR-005): 400 with an error on pageSize
+GET {{MiniErp.Api_HostAddress}}/api/customers?pageSize=101
+
+### 6. Customer detail (US2-2): 200 with all the data (uses the id created in request 1)
+GET {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+
+### 7. Unknown customer (US2-3): 404
+GET {{MiniErp.Api_HostAddress}}/api/customers/00000000-0000-7000-8000-000000000000
+
+### 8. Replace all data without phone (US3-1, US3-5): 200 and "phone": null (uses the id from request 1)
+PUT {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "legalName": "Pérez, Juan Carlos",
+  "taxId": "20-12345678-6",
+  "vatCondition": "registeredTaxpayer",
+  "email": "juancarlos@example.com",
+  "address": "Calle Falsa 123"
+}
+
+### 9. Delete the customer (US4-1): 204 (uses the id from request 1)
+DELETE {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+
+### 10. Detail after deleting (US4-1): 404
+GET {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+
+### 11. Register the same tax id again (US4-4): run request 1 again; 201 with a new id

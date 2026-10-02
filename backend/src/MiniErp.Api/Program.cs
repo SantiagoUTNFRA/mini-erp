@@ -18,6 +18,7 @@ builder.Services.AddScoped<CreateCustomer>();
 builder.Services.AddScoped<GetCustomer>();
 builder.Services.AddScoped<ListCustomers>();
 builder.Services.AddScoped<UpdateCustomer>();
+builder.Services.AddScoped<DeleteCustomer>();
 
 var app = builder.Build();
 

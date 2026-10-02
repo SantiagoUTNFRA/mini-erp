@@ -59,3 +59,11 @@ Content-Type: application/json
   "email": "juancarlos@example.com",
   "address": "Calle Falsa 123"
 }
+
+### 9. Delete the customer (US4-1): 204 (uses the id from request 1)
+DELETE {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+
+### 10. Detail after deleting (US4-1): 404
+GET {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+
+### 11. Register the same tax id again (US4-4): run request 1 again; 201 with a new id

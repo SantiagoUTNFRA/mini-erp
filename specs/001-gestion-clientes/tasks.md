@@ -184,14 +184,14 @@ posterior devuelve `404`; el mismo CUIT se puede volver a registrar (quickstart,
 
 ### Tests for User Story 4 (escribir primero; deben fallar)
 
-- [ ] T050 [P] [US4] Unit tests en backend/tests/MiniErp.UnitTests/Customers/DeleteCustomerTests.cs: éxito elimina; con `FakeCustomerInvoiceChecker` en `true` → `Conflict` "Customer has invoices" y el cliente no se elimina (FR-009); id inexistente → `NotFound`
-- [ ] T051 [P] [US4] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/DeleteCustomerEndpointTests.cs, con datos cargados por el repositorio: `204` y después `GET` → `404`; id inexistente → `404`; después de la baja, `ExistsByTaxIdAsync` con ese CUIT devuelve `false` y un `SeedAsync` con el mismo CUIT y otro id funciona (prueba que el índice único lo liberó; el alta por API de US4-4 la cubre el paso 11 del quickstart, para no depender de US1)
+- [X] T050 [P] [US4] Unit tests en backend/tests/MiniErp.UnitTests/Customers/DeleteCustomerTests.cs: éxito elimina; con `FakeCustomerInvoiceChecker` en `true` → `Conflict` "Customer has invoices" y el cliente no se elimina (FR-009); id inexistente → `NotFound`
+- [X] T051 [P] [US4] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/DeleteCustomerEndpointTests.cs, con datos cargados por el repositorio: `204` y después `GET` → `404`; id inexistente → `404`; después de la baja, `ExistsByTaxIdAsync` con ese CUIT devuelve `false` y un `SeedAsync` con el mismo CUIT y otro id funciona (prueba que el índice único lo liberó; el alta por API de US4-4 la cubre el paso 11 del quickstart, para no depender de US1)
 
 ### Implementation for User Story 4
 
-- [ ] T052 [US4] Implementar `DeleteCustomer` (existe → `HasInvoicesAsync` → `DeleteAsync`) en backend/src/MiniErp.Application/Customers/DeleteCustomer.cs
-- [ ] T053 [US4] Agregar `DELETE /{id:guid}` (`204 No Content`) en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar `DeleteCustomer` en backend/src/MiniErp.Api/Program.cs
-- [ ] T054 [US4] Agregar los requests 9–11 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
+- [X] T052 [US4] Implementar `DeleteCustomer` (existe → `HasInvoicesAsync` → `DeleteAsync`) en backend/src/MiniErp.Application/Customers/DeleteCustomer.cs
+- [X] T053 [US4] Agregar `DELETE /{id:guid}` (`204 No Content`) en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar `DeleteCustomer` en backend/src/MiniErp.Api/Program.cs
+- [X] T054 [US4] Agregar los requests 9–11 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
 
 **Checkpoint**: las 4 historias funcionan por separado.
 

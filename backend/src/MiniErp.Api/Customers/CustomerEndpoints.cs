@@ -25,6 +25,9 @@ internal static class CustomerEndpoints
         group.MapPut("/{id:guid}", UpdateAsync)
             .WithName("UpdateCustomer");
 
+        group.MapDelete("/{id:guid}", DeleteAsync)
+            .WithName("DeleteCustomer");
+
         return endpoints;
     }
 
@@ -89,5 +92,20 @@ internal static class CustomerEndpoints
         }
 
         return TypedResults.Ok(CustomerResponse.From(result.Value));
+    }
+
+    private static async Task<Results<NoContent, ProblemHttpResult>> DeleteAsync(
+        Guid id,
+        DeleteCustomer deleteCustomer,
+        CancellationToken cancellationToken)
+    {
+        Result result = await deleteCustomer.ExecuteAsync(id, cancellationToken);
+
+        if (result.Error is { } error)
+        {
+            return error.ToProblem();
+        }
+
+        return TypedResults.NoContent();
     }
 }

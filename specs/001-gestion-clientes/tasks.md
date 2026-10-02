@@ -162,14 +162,14 @@ devuelve `200` con `phone: null` (quickstart, paso 8).
 
 ### Tests for User Story 3 (escribir primero; deben fallar)
 
-- [ ] T045 [P] [US3] Unit tests en backend/tests/MiniErp.UnitTests/Customers/UpdateCustomerTests.cs: éxito reemplaza todos los datos (un opcional que no se envía queda ausente); id inexistente → `NotFound`; CUIT de **otro** cliente → `Conflict` y sin cambios; dejar el **propio** CUIT no es duplicado; cambiar el CUIT por uno que no usa nadie → éxito (spec, Assumptions); datos inválidos → `Validation` y sin cambios; `DuplicateTaxIdException` → `Conflict`
-- [ ] T046 [P] [US3] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/UpdateCustomerEndpointTests.cs, con datos cargados por el repositorio: `200` con los datos nuevos y `phone: null` si no se envía; `404` para un id inexistente; `200` al cambiar el CUIT por uno libre; `409` al asignar el CUIT de otro cliente; `400` con todos los campos inválidos; después de cada rechazo, un `GET` muestra el cliente sin cambios (FR-011)
+- [X] T045 [P] [US3] Unit tests en backend/tests/MiniErp.UnitTests/Customers/UpdateCustomerTests.cs: éxito reemplaza todos los datos (un opcional que no se envía queda ausente); id inexistente → `NotFound`; CUIT de **otro** cliente → `Conflict` y sin cambios; dejar el **propio** CUIT no es duplicado; cambiar el CUIT por uno que no usa nadie → éxito (spec, Assumptions); datos inválidos → `Validation` y sin cambios; `DuplicateTaxIdException` → `Conflict`
+- [X] T046 [P] [US3] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/UpdateCustomerEndpointTests.cs, con datos cargados por el repositorio: `200` con los datos nuevos y `phone: null` si no se envía; `404` para un id inexistente; `200` al cambiar el CUIT por uno libre; `409` al asignar el CUIT de otro cliente; `400` con todos los campos inválidos; después de cada rechazo, un `GET` muestra el cliente sin cambios (FR-011)
 
 ### Implementation for User Story 3
 
-- [ ] T047 [US3] Implementar `UpdateCustomer` (carga → `Customer.Update` → `ExistsByTaxIdAsync` excluyendo el propio id → `UpdateAsync`) en backend/src/MiniErp.Application/Customers/UpdateCustomer.cs
-- [ ] T048 [US3] Agregar `PUT /{id:guid}` en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar `UpdateCustomer` en backend/src/MiniErp.Api/Program.cs
-- [ ] T049 [US3] Agregar el request 8 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
+- [X] T047 [US3] Implementar `UpdateCustomer` (carga → `Customer.Update` → `ExistsByTaxIdAsync` excluyendo el propio id → `UpdateAsync`) en backend/src/MiniErp.Application/Customers/UpdateCustomer.cs
+- [X] T048 [US3] Agregar `PUT /{id:guid}` en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar `UpdateCustomer` en backend/src/MiniErp.Api/Program.cs
+- [X] T049 [US3] Agregar el request 8 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
 
 **Checkpoint**: US1–US3 funcionan por separado.
 

@@ -47,3 +47,15 @@ GET {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.i
 
 ### 7. Unknown customer (US2-3): 404
 GET {{MiniErp.Api_HostAddress}}/api/customers/00000000-0000-7000-8000-000000000000
+
+### 8. Replace all data without phone (US3-1, US3-5): 200 and "phone": null (uses the id from request 1)
+PUT {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "legalName": "Pérez, Juan Carlos",
+  "taxId": "20-12345678-6",
+  "vatCondition": "registeredTaxpayer",
+  "email": "juancarlos@example.com",
+  "address": "Calle Falsa 123"
+}

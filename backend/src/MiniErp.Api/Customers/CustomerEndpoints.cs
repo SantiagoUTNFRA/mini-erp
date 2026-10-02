@@ -22,6 +22,9 @@ internal static class CustomerEndpoints
         group.MapPost("/", CreateAsync)
             .WithName("CreateCustomer");
 
+        group.MapPut("/{id:guid}", UpdateAsync)
+            .WithName("UpdateCustomer");
+
         return endpoints;
     }
 
@@ -70,5 +73,21 @@ internal static class CustomerEndpoints
 
         CustomerResponse response = CustomerResponse.From(result.Value);
         return TypedResults.Created($"/api/customers/{response.Id}", response);
+    }
+
+    private static async Task<Results<Ok<CustomerResponse>, ValidationProblem, ProblemHttpResult>> UpdateAsync(
+        Guid id,
+        CustomerRequest request,
+        UpdateCustomer updateCustomer,
+        CancellationToken cancellationToken)
+    {
+        Result<Customer> result = await updateCustomer.ExecuteAsync(id, request.ToData(), cancellationToken);
+
+        if (result.Error is { } error)
+        {
+            return error.Kind == ErrorKind.Validation ? error.ToValidationProblem() : error.ToProblem();
+        }
+
+        return TypedResults.Ok(CustomerResponse.From(result.Value));
     }
 }

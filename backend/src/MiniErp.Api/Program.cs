@@ -17,6 +17,7 @@ builder.Services.AddEfCorePersistence(connectionString);
 builder.Services.AddScoped<CreateCustomer>();
 builder.Services.AddScoped<GetCustomer>();
 builder.Services.AddScoped<ListCustomers>();
+builder.Services.AddScoped<UpdateCustomer>();
 
 var app = builder.Build();
 

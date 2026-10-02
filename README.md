@@ -5,8 +5,8 @@ hexagonal. Lo desarrollo con un agente de IA (Claude Code) usando Spec-Driven De
 [GitHub Spec Kit](https://github.com/github/spec-kit): yo defino y reviso como tech lead, el agente
 ejecuta.
 
-> **Estado:** en construcción. La arquitectura, el entorno local y la constitución del proyecto están
-> listos; la primera feature (gestión de clientes) está especificada y en planificación.
+> **Estado:** en construcción. La primera feature, gestión de clientes, está completa: alta, consulta,
+> modificación y baja, con tests unitarios, de arquitectura y de integración contra MySQL real.
 
 ## El experimento: reemplazabilidad
 
@@ -50,7 +50,7 @@ Los tests de arquitectura fallan si `Domain` o `Application` dependen de un adap
 - **Constitución del proyecto** en [`.specify/memory/constitution.md`](.specify/memory/constitution.md):
   los principios no negociables que cada plan verifica.
 - **Features con Spec-Driven Development**: specify → clarify → plan → tasks → implement. Las
-  especificaciones viven en `specs/`; cada feature se desarrolla en su rama y entra a
+  especificaciones viven en [`specs/`](specs/); cada feature se desarrolla en su rama y entra a
   `main` por Pull Request.
 - **Instrucciones para el agente** en [`CLAUDE.md`](CLAUDE.md) y [`backend/CLAUDE.md`](backend/CLAUDE.md).
 
@@ -65,10 +65,16 @@ docker compose up -d --wait       # levanta MySQL y espera a que esté listo
 
 # Backend (desde backend/)
 cd backend
+dotnet user-secrets set "ConnectionStrings:MiniErp" \
+  "Server=127.0.0.1;Port=3306;Database=minierp;User=minierp;Password=<MYSQL_PASSWORD de .env>" \
+  --project src/MiniErp.Api                # solo la primera vez
 dotnet build
-dotnet test
-dotnet run --project src/MiniErp.Api      # http://localhost:5014
+dotnet test                                # requiere Docker: los tests levantan su propio MySQL
+dotnet run --project src/MiniErp.Api      # http://localhost:5014; aplica las migraciones al arrancar
 ```
+
+Para probar la API a mano: `backend/src/MiniErp.Api/MiniErp.Api.http`, con la extensión REST Client de
+VS Code.
 
 En Development, el documento OpenAPI se expone en `/openapi/v1.json`.
 
@@ -77,7 +83,7 @@ En Development, el documento OpenAPI se expone en `/openapi/v1.json`.
 - [x] Arquitectura hexagonal con tests de arquitectura
 - [x] Entorno local con Docker Compose
 - [x] Constitución del proyecto y adopción de Spec Kit
-- [ ] Gestión de clientes (especificada, en planificación)
+- [x] Gestión de clientes ([spec](specs/001-gestion-clientes/spec.md))
 - [ ] Gestión de productos
 - [ ] Facturación
 - [ ] Frontend React

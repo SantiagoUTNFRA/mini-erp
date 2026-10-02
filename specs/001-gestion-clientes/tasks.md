@@ -201,11 +201,11 @@ posterior devuelve `404`; el mismo CUIT se puede volver a registrar (quickstart,
 
 **Purpose**: rendimiento, documentación y definition of done.
 
-- [ ] T055 Test de rendimiento para SC-005 en backend/tests/MiniErp.IntegrationTests/Customers/CustomerPerformanceTests.cs: cargar 10.000 clientes con un insert masivo (`AddRange` + un único `SaveChangesAsync` sobre el `MiniErpDbContext` de un `CreateScope()`) y verificar que una página del listado y un detalle responden en menos de 1 segundo. Marcarlo como explícito de xUnit v3 (`[Fact(Explicit = true)]`): no corre en el `dotnet test` normal, para no hacer más lenta la suite
-- [ ] T056 [P] Actualizar backend/CLAUDE.md: estado del backend, convención de carpetas por módulo (`Customers/`), comandos de `dotnet ef` (herramienta local), que `dotnet test` requiere Docker, y el ADR-0005
-- [ ] T057 [P] Actualizar "Estado actual" en CLAUDE.md (raíz) y marcar "Gestión de clientes" como hecha en el roadmap de README.md
-- [ ] T058 Correr la definition of done desde backend/: `dotnet build` sin warnings, `dotnet test` en verde, el test explícito de rendimiento de T055 en verde (correrlo habilitando los tests explícitos de xUnit v3; verificar el flag exacto del runner al implementar), `dotnet format --verify-no-changes` sin cambios
-- [ ] T059 Validación manual con specs/001-gestion-clientes/quickstart.md, sección 2 (requiere que el tech lead configure la connection string en user-secrets)
+- [X] T055 Test de rendimiento para SC-005 en backend/tests/MiniErp.IntegrationTests/Customers/CustomerPerformanceTests.cs: cargar 10.000 clientes con un insert masivo (`AddRange` + un único `SaveChangesAsync` sobre el `MiniErpDbContext` de un `CreateScope()`) y verificar que una página del listado y un detalle responden en menos de 1 segundo. Marcarlo como explícito de xUnit v3 (`[Fact(Explicit = true)]`): no corre en el `dotnet test` normal, para no hacer más lenta la suite
+- [X] T056 [P] Actualizar backend/CLAUDE.md: estado del backend, convención de carpetas por módulo (`Customers/`), comandos de `dotnet ef` (herramienta local), que `dotnet test` requiere Docker, y el ADR-0005
+- [X] T057 [P] Actualizar "Estado actual" en CLAUDE.md (raíz) y marcar "Gestión de clientes" como hecha en el roadmap de README.md
+- [X] T058 Correr la definition of done desde backend/: `dotnet build` sin warnings, `dotnet test` en verde, el test explícito de rendimiento de T055 en verde (correrlo habilitando los tests explícitos de xUnit v3; verificar el flag exacto del runner al implementar), `dotnet format --verify-no-changes` sin cambios
+- [X] T059 Validación manual con specs/001-gestion-clientes/quickstart.md, sección 2 (requiere que el tech lead configure la connection string en user-secrets)
 
 ---
 

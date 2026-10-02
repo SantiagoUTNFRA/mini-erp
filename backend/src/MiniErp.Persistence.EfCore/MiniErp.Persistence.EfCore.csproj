@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+    <PackageReference Include="MySql.EntityFrameworkCore" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MiniErp.Application\MiniErp.Application.csproj" />
     <ProjectReference Include="..\MiniErp.Domain\MiniErp.Domain.csproj" />
   </ItemGroup>

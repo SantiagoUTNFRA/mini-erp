@@ -27,6 +27,12 @@ misma minor, compatible). `Testcontainers.MySql` es MIT.
 dejaría EF Core sin los fixes de 10.0.10–10.0.12 sin ganancia concreta. Si aparece una
 incompatibilidad, ese es el plan B.
 
+**Actualización (2026-10-02, implementación)**: se aplicó el plan B. Como `Design` es
+`PrivateAssets="all"`, EF Core 10.0.12 solo se resolvía dentro de `MiniErp.Persistence.EfCore`; la API
+y los tests recibían 10.0.9 a través del proveedor, y el build daba `MSB3277` (el adaptador compilado
+contra 10.0.12 corría con 10.0.9). `Design` quedó en **10.0.9** y todo el grafo usa EF Core 10.0.9. La
+herramienta `dotnet-ef` sigue en 10.0.12 (una herramienta más nueva que el runtime es compatible).
+
 ## R2. Estrategia de tests de integración contra la base [requiere OK + ADR-0005]
 
 **Decisión**: los tests de integración levantan un MySQL efímero con Testcontainers (imagen

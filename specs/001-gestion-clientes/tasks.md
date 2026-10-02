@@ -116,14 +116,14 @@ segundo `POST` con el mismo CUIT devuelve `409` (quickstart, pasos 1–3).
 
 ### Tests for User Story 1 (escribir primero; deben fallar)
 
-- [ ] T034 [P] [US1] Unit tests del caso de uso en backend/tests/MiniErp.UnitTests/Customers/CreateCustomerTests.cs (con los fakes de T018): éxito agrega el cliente; CUIT ya existente → `Conflict` "Customer already exists" sin agregar nada; el repositorio lanza `DuplicateTaxIdException` → `Conflict`; datos inválidos → `Validation` con todos los campos y sin agregar nada
-- [ ] T035 [P] [US1] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/CreateCustomerEndpointTests.cs: `201` con `Location: /api/customers/{id}` y `taxId` = `"20123456786"` para `"20-12345678-6"`; mismo CUIT sin guiones → `409` con title `Customer already exists`; CUIT `"20-12345678-5"`, email `"foo"` y sin `legalName` → un solo `400` con errores en `taxId`, `email` y `legalName`; `vatCondition` inválido aparece como error de `vatCondition`; `legalName` de 201 caracteres → `400`; dos `POST` simultáneos con el mismo CUIT → exactamente un `201` y un `409`. Llamar a `ResetDatabaseAsync` antes de cada test
+- [X] T034 [P] [US1] Unit tests del caso de uso en backend/tests/MiniErp.UnitTests/Customers/CreateCustomerTests.cs (con los fakes de T018): éxito agrega el cliente; CUIT ya existente → `Conflict` "Customer already exists" sin agregar nada; el repositorio lanza `DuplicateTaxIdException` → `Conflict`; datos inválidos → `Validation` con todos los campos y sin agregar nada
+- [X] T035 [P] [US1] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/CreateCustomerEndpointTests.cs: `201` con `Location: /api/customers/{id}` y `taxId` = `"20123456786"` para `"20-12345678-6"`; mismo CUIT sin guiones → `409` con title `Customer already exists`; CUIT `"20-12345678-5"`, email `"foo"` y sin `legalName` → un solo `400` con errores en `taxId`, `email` y `legalName`; `vatCondition` inválido aparece como error de `vatCondition`; `legalName` de 201 caracteres → `400`; dos `POST` simultáneos con el mismo CUIT → exactamente un `201` y un `409`. Llamar a `ResetDatabaseAsync` antes de cada test
 
 ### Implementation for User Story 1
 
-- [ ] T036 [US1] Implementar el caso de uso `CreateCustomer` (comando con los datos como strings → `Customer.Create` → `ExistsByTaxIdAsync` → `AddAsync`, traduciendo `DuplicateTaxIdException` a `Conflict`) en backend/src/MiniErp.Application/Customers/CreateCustomer.cs
-- [ ] T037 [US1] Agregar `POST /` (`201 Created` con `Location` y `CustomerResponse`) en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar `CreateCustomer` en backend/src/MiniErp.Api/Program.cs
-- [ ] T038 [US1] Agregar los requests 1–3 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
+- [X] T036 [US1] Implementar el caso de uso `CreateCustomer` (comando con los datos como strings → `Customer.Create` → `ExistsByTaxIdAsync` → `AddAsync`, traduciendo `DuplicateTaxIdException` a `Conflict`) en backend/src/MiniErp.Application/Customers/CreateCustomer.cs
+- [X] T037 [US1] Agregar `POST /` (`201 Created` con `Location` y `CustomerResponse`) en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar `CreateCustomer` en backend/src/MiniErp.Api/Program.cs
+- [X] T038 [US1] Agregar los requests 1–3 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
 
 **Checkpoint**: US1 completa y testeada. Es el MVP.
 

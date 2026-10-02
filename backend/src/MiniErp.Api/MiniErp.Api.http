@@ -1,1 +1,37 @@
 @MiniErp.Api_HostAddress = http://localhost:5014
+
+# Validation scenarios from specs/001-gestion-clientes/quickstart.md, section 2.
+
+### 1. Create a customer (US1-1): 201 with Location; taxId normalized to 20123456786
+# @name createCustomer
+POST {{MiniErp.Api_HostAddress}}/api/customers
+Content-Type: application/json
+
+{
+  "legalName": "Pérez, Juan",
+  "taxId": "20-12345678-6",
+  "vatCondition": "finalConsumer",
+  "email": "juan@example.com",
+  "phone": "+54 11 4321-5678",
+  "address": "Av. Siempre Viva 742"
+}
+
+### 2. Same tax id without separators (US1-2): 409 "Customer already exists"
+POST {{MiniErp.Api_HostAddress}}/api/customers
+Content-Type: application/json
+
+{
+  "legalName": "Pérez, Juan",
+  "taxId": "20123456786",
+  "vatCondition": "finalConsumer"
+}
+
+### 3. Several invalid fields (US1-3, US1-4): one 400 with taxId, email and legalName
+POST {{MiniErp.Api_HostAddress}}/api/customers
+Content-Type: application/json
+
+{
+  "taxId": "20-12345678-5",
+  "vatCondition": "finalConsumer",
+  "email": "foo"
+}

@@ -1,4 +1,5 @@
 using MiniErp.Api.Customers;
+using MiniErp.Application.Customers;
 using MiniErp.Persistence.EfCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ string connectionString = builder.Configuration.GetConnectionString("MiniErp")
 builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
 builder.Services.AddEfCorePersistence(connectionString);
+
+builder.Services.AddScoped<CreateCustomer>();
 
 var app = builder.Build();
 

@@ -4,7 +4,7 @@
 
 **Created**: 2026-10-02
 
-**Status**: Draft
+**Status**: Approved
 
 **Input**: User description: "Gestión de clientes del ERP. Un usuario del sistema necesita dar de alta
 clientes, consultarlos (listado y detalle), modificar sus datos y darlos de baja, porque los clientes
@@ -158,7 +158,7 @@ aparece en el listado ni en el detalle.
   indicar cada campo inválido y el motivo. En particular:
   - CUIT/CUIL: 11 dígitos con dígito verificador válido.
   - Condición frente al IVA: uno de los valores admitidos (ver Assumptions).
-  - Email, si se informa: formato de email válido.
+  - Email, si se informa: formato de email válido (un único `@`, parte local y dominio no vacíos, dominio con al menos un `.` que no esté al inicio ni al final, y sin espacios).
   - Teléfono, si se informa: solo dígitos, espacios, guiones, paréntesis y un `+` opcional al
     inicio, con al menos 6 dígitos.
   - Largos máximos (en caracteres, después de quitar espacios al inicio y al final): razón social
@@ -225,5 +225,6 @@ aparece en el listado ni en el detalle.
   es obligatorio).
 - El CUIT/CUIL de un cliente se puede modificar (para corregir errores de carga), respetando la
   unicidad. Cuando exista facturación habrá que revisar si sigue siendo válido modificarlo.
+- El orden alfabético del listado no distingue mayúsculas de minúsculas ni acentos.
 - La dirección es un único texto libre; no se estructura en calle, localidad, provincia, etc.
 - La baja no deja rastro: no hay papelera ni posibilidad de deshacerla.

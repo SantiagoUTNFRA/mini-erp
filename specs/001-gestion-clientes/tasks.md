@@ -61,7 +61,7 @@ infraestructura de tests de integración que usan las 4 historias.
 ### Tests del dominio (escribir primero; deben fallar)
 
 - [ ] T008 [P] Unit tests de `TaxId` en backend/tests/MiniErp.UnitTests/Customers/TaxIdTests.cs: `"20-12345678-6"` y `"20 12345678 6"` son válidos y se normalizan a `"20123456786"`; `"20123456785"` es inválido (dígito verificador incorrecto); menos o más de 11 dígitos, letras, vacío y solo espacios son inválidos; un número cuyo verificador calculado es 10 es inválido; un número con resto 0 exige verificador 0. Algoritmo: pesos `5,4,3,2,7,6,5,4,3,2` sobre los primeros 10 dígitos, `r = suma mod 11`, verificador = `0` si `r = 0`, `11 − r` en otro caso, inválido si da `10`
-- [ ] T009 [P] Unit tests de los value objects en backend/tests/MiniErp.UnitTests/Customers/CustomerValueObjectTests.cs: `LegalName` "Trim; no vacío; ≤ 200 caracteres"; `Email` "Trim + minúsculas; formato de email; ≤ 254 caracteres"; `Phone` "Trim; solo dígitos, espacios, `-`, `(`, `)` y un `+` inicial; ≥ 6 dígitos; ≤ 30 caracteres" (incluye `+` en el medio como inválido); `Address` "Trim; texto libre; ≤ 300 caracteres". El largo se mide después del Trim, y un valor más largo se rechaza, nunca se trunca
+- [ ] T009 [P] Unit tests de los value objects en backend/tests/MiniErp.UnitTests/Customers/CustomerValueObjectTests.cs: `LegalName` "Trim; no vacío; ≤ 200 caracteres"; `Email` "Trim + minúsculas; un único `@`, parte local y dominio no vacíos, dominio con al menos un `.` que no esté al inicio ni al final, y sin espacios; ≤ 254 caracteres" (casos inválidos: sin `@`, dos `@`, local o dominio vacíos, dominio sin `.`, `.` al inicio o al final del dominio, espacios internos); `Phone` "Trim; solo dígitos, espacios, `-`, `(`, `)` y un `+` inicial; ≥ 6 dígitos; ≤ 30 caracteres" (incluye `+` en el medio como inválido); `Address` "Trim; texto libre; ≤ 300 caracteres". El largo se mide después del Trim, y un valor más largo se rechaza, nunca se trunca
 - [ ] T010 [P] Unit tests de `Customer` en backend/tests/MiniErp.UnitTests/Customers/CustomerTests.cs: `Create` con datos válidos asigna un `Id` Guid versión 7; `Create` con varios campos inválidos devuelve **todos** los errores juntos, cada uno con su campo (SC-004); `vatCondition` acepta `registeredTaxpayer`, `simplifiedRegime`, `exempt` y `finalConsumer` sin distinguir mayúsculas, y rechaza cualquier otro valor, incluidos los números; opcionales vacíos o con solo espacios quedan ausentes; `Update` reemplaza todos los datos (un opcional que no se envía queda ausente) y no cambia el `Id`
 
 ### Dominio
@@ -97,7 +97,7 @@ infraestructura de tests de integración que usan las 4 historias.
 
 ### Infraestructura de tests de integración
 
-- [ ] T030 Crear backend/tests/MiniErp.IntegrationTests/Infrastructure/MiniErpApiFactory.cs: `WebApplicationFactory<Program>` + `IAsyncLifetime` que arranca un `MySqlContainer` con imagen `mysql:9.7`, sobrescribe `ConnectionStrings:MiniErp` con la del contenedor y expone `ResetDatabaseAsync()` (vacía la tabla `customers`). Registrarla como assembly fixture de xUnit v3 (un contenedor por ejecución)
+- [ ] T030 Crear backend/tests/MiniErp.IntegrationTests/Infrastructure/MiniErpApiFactory.cs: `WebApplicationFactory<Program>` + `IAsyncLifetime` que arranca un `MySqlContainer` con imagen `mysql:9.7`, sobrescribe `ConnectionStrings:MiniErp` con la del contenedor **con `builder.UseSetting("ConnectionStrings:MiniErp", ...)` dentro de `ConfigureWebHost`** (no con `ConfigureAppConfiguration`: con Minimal APIs se aplica después de que `Program.cs` lee la configuración y la API no vería el valor). Expone `ResetDatabaseAsync()` (vacía la tabla `customers` con el `MiniErpDbContext` resuelto en un `Services.CreateScope()`) y `SeedAsync(params Customer[])` (agrega clientes con `ICustomerRepository` resuelto en un `CreateScope()`, porque ambos son scoped). Registrarla como assembly fixture de xUnit v3 (un contenedor por ejecución)
 - [ ] T031 Desactivar la paralelización entre colecciones (`"parallelizeTestCollections": false`) en backend/tests/MiniErp.IntegrationTests/xunit.runner.json, porque los tests comparten la base
 - [ ] T032 Adaptar backend/tests/MiniErp.IntegrationTests/OpenApiTests.cs para usar `MiniErpApiFactory`, porque la API ahora necesita base al arrancar
 - [ ] T033 Verificar el checkpoint sobre backend/MiniErp.slnx: `dotnet build` sin warnings; `dotnet test` en verde (T008–T010, `DependencyRuleTests` y `OpenApiTests` contra el contenedor)
@@ -140,7 +140,7 @@ ordenados por razón social con `totalCount`, y `GET /api/customers/{id}` devuel
 ### Tests for User Story 2 (escribir primero; deben fallar)
 
 - [ ] T039 [P] [US2] Unit tests en backend/tests/MiniErp.UnitTests/Customers/GetCustomerTests.cs y ListCustomersTests.cs: detalle de un id inexistente → `NotFound`; `page` por defecto 1 y `pageSize` por defecto 20; `page` < 1, `pageSize` 0 o negativo, y `pageSize` 101 → `Validation` con clave `page` o `pageSize`
-- [ ] T040 [P] [US2] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/ListCustomersEndpointTests.cs y GetCustomerEndpointTests.cs, cargando los datos con `ICustomerRepository` obtenido de los servicios de la factory (sin depender del `POST`): orden alfabético por `legalName`; `totalCount` correcto; `pageSize` por defecto 20; página fuera de rango → `200` con `items` vacío; tabla vacía → `200` con `items` vacío; `pageSize=101` → `400` con error en `pageSize`; detalle → `200` con todos los campos; id inexistente → `404`; id con formato inválido → `404`
+- [ ] T040 [P] [US2] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/ListCustomersEndpointTests.cs y GetCustomerEndpointTests.cs, cargando los datos con `SeedAsync` de la factory (sin depender del `POST`): orden alfabético por `legalName` (datos de prueba sin variantes de mayúsculas ni acentos, para no depender del collation de la base); `totalCount` correcto; `pageSize` por defecto 20; página fuera de rango → `200` con `items` vacío; tabla vacía → `200` con `items` vacío; `pageSize=101` → `400` con error en `pageSize`; detalle → `200` con todos los campos; id inexistente → `404`; id con formato inválido → `404`
 
 ### Implementation for User Story 2
 
@@ -162,8 +162,8 @@ devuelve `200` con `phone: null` (quickstart, paso 8).
 
 ### Tests for User Story 3 (escribir primero; deben fallar)
 
-- [ ] T045 [P] [US3] Unit tests en backend/tests/MiniErp.UnitTests/Customers/UpdateCustomerTests.cs: éxito reemplaza todos los datos (un opcional que no se envía queda ausente); id inexistente → `NotFound`; CUIT de **otro** cliente → `Conflict` y sin cambios; dejar el **propio** CUIT no es duplicado; datos inválidos → `Validation` y sin cambios; `DuplicateTaxIdException` → `Conflict`
-- [ ] T046 [P] [US3] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/UpdateCustomerEndpointTests.cs, con datos cargados por el repositorio: `200` con los datos nuevos y `phone: null` si no se envía; `404` para un id inexistente; `409` al asignar el CUIT de otro cliente; `400` con todos los campos inválidos; después de cada rechazo, un `GET` muestra el cliente sin cambios (FR-011)
+- [ ] T045 [P] [US3] Unit tests en backend/tests/MiniErp.UnitTests/Customers/UpdateCustomerTests.cs: éxito reemplaza todos los datos (un opcional que no se envía queda ausente); id inexistente → `NotFound`; CUIT de **otro** cliente → `Conflict` y sin cambios; dejar el **propio** CUIT no es duplicado; cambiar el CUIT por uno que no usa nadie → éxito (spec, Assumptions); datos inválidos → `Validation` y sin cambios; `DuplicateTaxIdException` → `Conflict`
+- [ ] T046 [P] [US3] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/UpdateCustomerEndpointTests.cs, con datos cargados por el repositorio: `200` con los datos nuevos y `phone: null` si no se envía; `404` para un id inexistente; `200` al cambiar el CUIT por uno libre; `409` al asignar el CUIT de otro cliente; `400` con todos los campos inválidos; después de cada rechazo, un `GET` muestra el cliente sin cambios (FR-011)
 
 ### Implementation for User Story 3
 
@@ -185,7 +185,7 @@ posterior devuelve `404`; el mismo CUIT se puede volver a registrar (quickstart,
 ### Tests for User Story 4 (escribir primero; deben fallar)
 
 - [ ] T050 [P] [US4] Unit tests en backend/tests/MiniErp.UnitTests/Customers/DeleteCustomerTests.cs: éxito elimina; con `FakeCustomerInvoiceChecker` en `true` → `Conflict` "Customer has invoices" y el cliente no se elimina (FR-009); id inexistente → `NotFound`
-- [ ] T051 [P] [US4] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/DeleteCustomerEndpointTests.cs, con datos cargados por el repositorio: `204` y después `GET` → `404`; id inexistente → `404`; después de la baja, un alta con el mismo CUIT es aceptada con otro id (se carga por el repositorio para no depender de US1)
+- [ ] T051 [P] [US4] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/DeleteCustomerEndpointTests.cs, con datos cargados por el repositorio: `204` y después `GET` → `404`; id inexistente → `404`; después de la baja, `ExistsByTaxIdAsync` con ese CUIT devuelve `false` y un `SeedAsync` con el mismo CUIT y otro id funciona (prueba que el índice único lo liberó; el alta por API de US4-4 la cubre el paso 11 del quickstart, para no depender de US1)
 
 ### Implementation for User Story 4
 
@@ -201,10 +201,10 @@ posterior devuelve `404`; el mismo CUIT se puede volver a registrar (quickstart,
 
 **Purpose**: rendimiento, documentación y definition of done.
 
-- [ ] T055 Test de rendimiento para SC-005 en backend/tests/MiniErp.IntegrationTests/Customers/CustomerPerformanceTests.cs: cargar 10.000 clientes con un insert masivo y verificar que una página del listado y un detalle responden en menos de 1 segundo; marcarlo con un trait `Category=Performance` para poder filtrarlo
+- [ ] T055 Test de rendimiento para SC-005 en backend/tests/MiniErp.IntegrationTests/Customers/CustomerPerformanceTests.cs: cargar 10.000 clientes con un insert masivo (`AddRange` + un único `SaveChangesAsync` sobre el `MiniErpDbContext` de un `CreateScope()`) y verificar que una página del listado y un detalle responden en menos de 1 segundo. Marcarlo como explícito de xUnit v3 (`[Fact(Explicit = true)]`): no corre en el `dotnet test` normal, para no hacer más lenta la suite
 - [ ] T056 [P] Actualizar backend/CLAUDE.md: estado del backend, convención de carpetas por módulo (`Customers/`), comandos de `dotnet ef` (herramienta local), que `dotnet test` requiere Docker, y el ADR-0005
 - [ ] T057 [P] Actualizar "Estado actual" en CLAUDE.md (raíz) y marcar "Gestión de clientes" como hecha en el roadmap de README.md
-- [ ] T058 Correr la definition of done desde backend/: `dotnet build` sin warnings, `dotnet test` en verde, `dotnet format --verify-no-changes` sin cambios
+- [ ] T058 Correr la definition of done desde backend/: `dotnet build` sin warnings, `dotnet test` en verde, el test explícito de rendimiento de T055 en verde (correrlo habilitando los tests explícitos de xUnit v3; verificar el flag exacto del runner al implementar), `dotnet format --verify-no-changes` sin cambios
 - [ ] T059 Validación manual con specs/001-gestion-clientes/quickstart.md, sección 2 (requiere que el tech lead configure la connection string en user-secrets)
 
 ---

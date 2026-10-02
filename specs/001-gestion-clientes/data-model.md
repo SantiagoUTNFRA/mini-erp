@@ -24,7 +24,7 @@
 | `LegalName` | `LegalName` | Sí | Trim; no vacío; ≤ 200 caracteres (FR-001, FR-004) |
 | `TaxId` | `TaxId` | Sí | Sin guiones ni espacios; 11 dígitos; dígito verificador válido (FR-004, R5); único (FR-003) |
 | `VatCondition` | `VatCondition` (enum) | Sí | Uno de los 4 valores del glosario (FR-004) |
-| `Email` | `Email?` | No | Trim + minúsculas; formato de email; ≤ 254 caracteres |
+| `Email` | `Email?` | No | Trim + minúsculas; un único `@`, parte local y dominio no vacíos, dominio con al menos un `.` que no esté al inicio ni al final, y sin espacios; ≤ 254 caracteres |
 | `Phone` | `Phone?` | No | Trim; solo dígitos, espacios, `-`, `(`, `)` y un `+` inicial; ≥ 6 dígitos; ≤ 30 caracteres |
 | `Address` | `Address?` | No | Trim; texto libre; ≤ 300 caracteres |
 
@@ -46,7 +46,7 @@ es válido.
 |---|---|---|
 | `LegalName` | Trim | Vacío, o más de 200 caracteres |
 | `TaxId` | Quita `-` y espacios | No quedan 11 dígitos, o el dígito verificador no coincide |
-| `Email` | Trim + minúsculas | Formato inválido, o más de 254 caracteres |
+| `Email` | Trim + minúsculas | No cumple el formato (un único `@`, parte local y dominio no vacíos, dominio con al menos un `.` que no esté al inicio ni al final, y sin espacios), o más de 254 caracteres |
 | `Phone` | Trim | Caracteres no permitidos, `+` fuera del inicio, menos de 6 dígitos, o más de 30 caracteres |
 | `Address` | Trim | Más de 300 caracteres |
 

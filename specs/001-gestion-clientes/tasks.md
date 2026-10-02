@@ -39,13 +39,13 @@ separado.
 
 **Purpose**: decisión registrada, paquetes aprobados y herramientas.
 
-- [ ] T001 Escribir el ADR-0005 en docs/adr/0005-tests-integracion-testcontainers.md con el formato de los ADR existentes (Estado: Aceptada, Fecha: 2026-10-02, Contexto, Opciones consideradas, Decisión, Consecuencias), a partir de research.md R2: MySQL efímero con `Testcontainers.MySql` 4.15.0 e imagen `mysql:9.7`; alternativas descartadas (base de compose, adaptador en memoria, proveedor InMemory de EF Core); costo: `dotnet test` requiere Docker. Va en su propio commit (`docs:`)
-- [ ] T002 Agregar a backend/Directory.Packages.props, y solo ahí, las versiones aprobadas: `MySql.EntityFrameworkCore` 10.0.9, `Microsoft.EntityFrameworkCore.Design` 10.0.12, `Testcontainers.MySql` 4.15.0
-- [ ] T003 [P] Referenciar `MySql.EntityFrameworkCore` y `Microsoft.EntityFrameworkCore.Design` (este último con `PrivateAssets="all"`) sin `Version` en backend/src/MiniErp.Persistence.EfCore/MiniErp.Persistence.EfCore.csproj
-- [ ] T004 [P] Referenciar `Testcontainers.MySql` sin `Version` en backend/tests/MiniErp.IntegrationTests/MiniErp.IntegrationTests.csproj
-- [ ] T005 [P] Crear el manifiesto de herramientas locales backend/.config/dotnet-tools.json con `dotnet new tool-manifest` e instalar `dotnet tool install dotnet-ef --version 10.0.12` (local, nunca global)
-- [ ] T006 [P] Inicializar user-secrets en backend/src/MiniErp.Api/MiniErp.Api.csproj con `dotnet user-secrets init --project src/MiniErp.Api` (agrega `UserSecretsId`; no guardar ningún secreto en archivos versionados)
-- [ ] T007 Verificar sobre backend/MiniErp.slnx que `dotnet build` termina sin warnings y `dotnet test` sigue en verde con los paquetes nuevos
+- [X] T001 Escribir el ADR-0005 en docs/adr/0005-tests-integracion-testcontainers.md con el formato de los ADR existentes (Estado: Aceptada, Fecha: 2026-10-02, Contexto, Opciones consideradas, Decisión, Consecuencias), a partir de research.md R2: MySQL efímero con `Testcontainers.MySql` 4.15.0 e imagen `mysql:9.7`; alternativas descartadas (base de compose, adaptador en memoria, proveedor InMemory de EF Core); costo: `dotnet test` requiere Docker. Va en su propio commit (`docs:`)
+- [X] T002 Agregar a backend/Directory.Packages.props, y solo ahí, las versiones aprobadas: `MySql.EntityFrameworkCore` 10.0.9, `Microsoft.EntityFrameworkCore.Design` 10.0.12, `Testcontainers.MySql` 4.15.0
+- [X] T003 [P] Referenciar `MySql.EntityFrameworkCore` y `Microsoft.EntityFrameworkCore.Design` (este último con `PrivateAssets="all"`) sin `Version` en backend/src/MiniErp.Persistence.EfCore/MiniErp.Persistence.EfCore.csproj
+- [X] T004 [P] Referenciar `Testcontainers.MySql` sin `Version` en backend/tests/MiniErp.IntegrationTests/MiniErp.IntegrationTests.csproj
+- [X] T005 [P] Crear el manifiesto de herramientas locales backend/dotnet-tools.json con `dotnet new tool-manifest` (en .NET 10 el SDK lo crea en la raíz, no en `.config/`) e instalar `dotnet tool install dotnet-ef --version 10.0.12` (local, nunca global)
+- [X] T006 [P] Inicializar user-secrets en backend/src/MiniErp.Api/MiniErp.Api.csproj con `dotnet user-secrets init --project src/MiniErp.Api` (agrega `UserSecretsId`; no guardar ningún secreto en archivos versionados)
+- [X] T007 Verificar sobre backend/MiniErp.slnx que `dotnet build` termina sin warnings y `dotnet test` sigue en verde con los paquetes nuevos
 
 **Checkpoint**: paquetes y herramientas listos; nada de comportamiento nuevo todavía.
 

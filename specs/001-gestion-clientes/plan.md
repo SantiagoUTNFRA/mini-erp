@@ -88,8 +88,7 @@ Primer módulo del backend: define la convención de carpetas que ADR-0002 dejó
 
 ```text
 backend/
-├── .config/
-│   └── dotnet-tools.json                  # nuevo: dotnet-ef como herramienta local
+├── dotnet-tools.json                      # nuevo: dotnet-ef como herramienta local
 ├── Directory.Packages.props               # + 3 paquetes (R1)
 ├── src/
 │   ├── MiniErp.Domain/

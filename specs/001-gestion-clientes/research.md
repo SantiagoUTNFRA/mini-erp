@@ -16,7 +16,7 @@ aprobadas el 2026-10-02.
 | `Microsoft.EntityFrameworkCore.Design` | 10.0.12 | `MiniErp.Persistence.EfCore` (`PrivateAssets=all`) | Generar migraciones |
 | `Testcontainers.MySql` | 4.15.0 | `MiniErp.IntegrationTests` | MySQL efímero para tests (ver R2) |
 
-Y la herramienta local `dotnet-ef` 10.0.12 en un manifiesto `.config/dotnet-tools.json` dentro de
+Y la herramienta local `dotnet-ef` 10.0.12 en un manifiesto `dotnet-tools.json` en la raíz de
 `backend/` (versionada con el repo, no instalada globalmente).
 
 **Motivo**: versiones verificadas en NuGet el 2026-10-02. `MySql.EntityFrameworkCore` 10.0.9 depende

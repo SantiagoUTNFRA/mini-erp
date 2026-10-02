@@ -35,3 +35,15 @@ Content-Type: application/json
   "vatCondition": "finalConsumer",
   "email": "foo"
 }
+
+### 4. List customers (US2-1): 200, ordered by legal name, with totalCount
+GET {{MiniErp.Api_HostAddress}}/api/customers
+
+### 5. Page size over the maximum (FR-005): 400 with an error on pageSize
+GET {{MiniErp.Api_HostAddress}}/api/customers?pageSize=101
+
+### 6. Customer detail (US2-2): 200 with all the data (uses the id created in request 1)
+GET {{MiniErp.Api_HostAddress}}/api/customers/{{createCustomer.response.body.$.id}}
+
+### 7. Unknown customer (US2-3): 404
+GET {{MiniErp.Api_HostAddress}}/api/customers/00000000-0000-7000-8000-000000000000

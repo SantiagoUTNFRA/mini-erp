@@ -45,9 +45,9 @@ public sealed record CustomerPageResponse(
     int PageSize,
     int TotalCount)
 {
-    public static CustomerPageResponse From(CustomerPage customerPage, int page, int pageSize) => new(
-        customerPage.Items.Select(CustomerResponse.From).ToList(),
-        page,
-        pageSize,
-        customerPage.TotalCount);
+    public static CustomerPageResponse From(CustomerPageResult result) => new(
+        result.Items.Select(CustomerResponse.From).ToList(),
+        result.Page,
+        result.PageSize,
+        result.TotalCount);
 }

@@ -15,6 +15,8 @@ builder.Services.AddProblemDetails();
 builder.Services.AddEfCorePersistence(connectionString);
 
 builder.Services.AddScoped<CreateCustomer>();
+builder.Services.AddScoped<GetCustomer>();
+builder.Services.AddScoped<ListCustomers>();
 
 var app = builder.Build();
 

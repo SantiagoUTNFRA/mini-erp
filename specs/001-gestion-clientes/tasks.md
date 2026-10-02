@@ -139,15 +139,15 @@ ordenados por razón social con `totalCount`, y `GET /api/customers/{id}` devuel
 
 ### Tests for User Story 2 (escribir primero; deben fallar)
 
-- [ ] T039 [P] [US2] Unit tests en backend/tests/MiniErp.UnitTests/Customers/GetCustomerTests.cs y ListCustomersTests.cs: detalle de un id inexistente → `NotFound`; `page` por defecto 1 y `pageSize` por defecto 20; `page` < 1, `pageSize` 0 o negativo, y `pageSize` 101 → `Validation` con clave `page` o `pageSize`
-- [ ] T040 [P] [US2] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/ListCustomersEndpointTests.cs y GetCustomerEndpointTests.cs, cargando los datos con `SeedAsync` de la factory (sin depender del `POST`): orden alfabético por `legalName` (datos de prueba sin variantes de mayúsculas ni acentos, para no depender del collation de la base); `totalCount` correcto; `pageSize` por defecto 20; página fuera de rango → `200` con `items` vacío; tabla vacía → `200` con `items` vacío; `pageSize=101` → `400` con error en `pageSize`; detalle → `200` con todos los campos; id inexistente → `404`; id con formato inválido → `404`
+- [X] T039 [P] [US2] Unit tests en backend/tests/MiniErp.UnitTests/Customers/GetCustomerTests.cs y ListCustomersTests.cs: detalle de un id inexistente → `NotFound`; `page` por defecto 1 y `pageSize` por defecto 20; `page` < 1, `pageSize` 0 o negativo, y `pageSize` 101 → `Validation` con clave `page` o `pageSize`
+- [X] T040 [P] [US2] Integration tests en backend/tests/MiniErp.IntegrationTests/Customers/ListCustomersEndpointTests.cs y GetCustomerEndpointTests.cs, cargando los datos con `SeedAsync` de la factory (sin depender del `POST`): orden alfabético por `legalName` (datos de prueba sin variantes de mayúsculas ni acentos, para no depender del collation de la base); `totalCount` correcto; `pageSize` por defecto 20; página fuera de rango → `200` con `items` vacío; tabla vacía → `200` con `items` vacío; `pageSize=101` → `400` con error en `pageSize`; detalle → `200` con todos los campos; id inexistente → `404`; id con formato inválido → `404`
 
 ### Implementation for User Story 2
 
-- [ ] T041 [P] [US2] Implementar `GetCustomer` en backend/src/MiniErp.Application/Customers/GetCustomer.cs
-- [ ] T042 [P] [US2] Implementar `ListCustomers` (valida `page` ≥ 1 y `pageSize` entre 1 y 100, con valores por defecto 1 y 20) en backend/src/MiniErp.Application/Customers/ListCustomers.cs
-- [ ] T043 [US2] Agregar `GET /` y `GET /{id:guid}` en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar los casos de uso en backend/src/MiniErp.Api/Program.cs
-- [ ] T044 [US2] Agregar los requests 4–7 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
+- [X] T041 [P] [US2] Implementar `GetCustomer` en backend/src/MiniErp.Application/Customers/GetCustomer.cs
+- [X] T042 [P] [US2] Implementar `ListCustomers` (valida `page` ≥ 1 y `pageSize` entre 1 y 100, con valores por defecto 1 y 20) en backend/src/MiniErp.Application/Customers/ListCustomers.cs
+- [X] T043 [US2] Agregar `GET /` y `GET /{id:guid}` en backend/src/MiniErp.Api/Customers/CustomerEndpoints.cs y registrar los casos de uso en backend/src/MiniErp.Api/Program.cs
+- [X] T044 [US2] Agregar los requests 4–7 del quickstart a backend/src/MiniErp.Api/MiniErp.Api.http
 
 **Checkpoint**: US1 y US2 funcionan por separado.
 

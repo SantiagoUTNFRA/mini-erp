@@ -1,5 +1,7 @@
 # mini-erp
 
+[![Backend CI](https://github.com/SantiagoUTNFRA/mini-erp/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/SantiagoUTNFRA/mini-erp/actions/workflows/backend-ci.yml)
+
 ERP didáctico para gestionar clientes, productos y facturas, construido con .NET 10 y arquitectura
 hexagonal. Lo desarrollo con un agente de IA (Claude Code) usando Spec-Driven Development con
 [GitHub Spec Kit](https://github.com/github/spec-kit): yo defino y reviso como tech lead, el agente
@@ -52,6 +54,9 @@ Los tests de arquitectura fallan si `Domain` o `Application` dependen de un adap
 - **Features con Spec-Driven Development**: specify → clarify → plan → tasks → implement. Las
   especificaciones viven en [`specs/`](specs/); cada feature se desarrolla en su rama y entra a
   `main` por Pull Request.
+- **Integración continua** con GitHub Actions ([ADR-0006](docs/adr/0006-integracion-continua-github-actions.md)):
+  cada PR compila, corre todos los tests (incluidos los de integración contra MySQL) y verifica el
+  formato. `main` está protegida: un PR en rojo no se puede mergear.
 - **Instrucciones para el agente** en [`CLAUDE.md`](CLAUDE.md) y [`backend/CLAUDE.md`](backend/CLAUDE.md).
 
 ## Correr el proyecto

@@ -117,6 +117,8 @@ tests/                         # un proyecto de tests por tipo (unit, integratio
 - `Directory.Packages.props`: no agregar paquetes sin OK.
 
 ## Definition of done
+Los puntos 1–3 los verifica también el CI en cada PR (`.github/workflows/backend-ci.yml`, ADR-0006);
+correrlos localmente antes de pushear evita esperar un rojo.
 1. `dotnet build` sin warnings.
 2. `dotnet test` en verde.
 3. `dotnet format --verify-no-changes` sin cambios.

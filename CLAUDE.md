@@ -11,6 +11,7 @@ Cada tecnología (base de datos, ORM, frontend) tiene que poder reemplazarse con
 ```
 backend/          # API .NET (MiniErp.Api) y sus tests; ver backend/CLAUDE.md
 docs/adr/         # decisiones de arquitectura (ADR)
+.github/workflows/ # CI (GitHub Actions): build, tests y formato en cada PR (ADR-0006)
 specs/            # specs de features (Spec Kit): spec, plan, tareas; una carpeta por feature
 frontend/         # React; todavía no existe, se agregará después
 compose.yaml      # entorno local (MySQL); ver "Entorno local"
@@ -44,4 +45,4 @@ docker compose down -v            # baja y BORRA los datos (pedir OK antes)
 
 ## Arquitectura
 
-Hexagonal (puertos y adaptadores) en proyectos separados: [ADR-0002](docs/adr/0002-reemplazabilidad-arquitectura-hexagonal.md), que reemplaza al ADR-0001. Persistencia con MySQL y EF Core: [ADR-0003](docs/adr/0003-persistencia-mysql-ef-core.md). Entorno local con Docker Compose: [ADR-0004](docs/adr/0004-entorno-local-docker-compose.md). Tests de integración con Testcontainers: [ADR-0005](docs/adr/0005-tests-integracion-testcontainers.md). Los ADR aceptados no se editan; si una decisión cambia, se escribe uno nuevo que lo reemplaza.
+Hexagonal (puertos y adaptadores) en proyectos separados: [ADR-0002](docs/adr/0002-reemplazabilidad-arquitectura-hexagonal.md), que reemplaza al ADR-0001. Persistencia con MySQL y EF Core: [ADR-0003](docs/adr/0003-persistencia-mysql-ef-core.md). Entorno local con Docker Compose: [ADR-0004](docs/adr/0004-entorno-local-docker-compose.md). Tests de integración con Testcontainers: [ADR-0005](docs/adr/0005-tests-integracion-testcontainers.md). CI con GitHub Actions y `main` protegida (solo entra por PR con el CI en verde): [ADR-0006](docs/adr/0006-integracion-continua-github-actions.md). Los ADR aceptados no se editan; si una decisión cambia, se escribe uno nuevo que lo reemplaza.

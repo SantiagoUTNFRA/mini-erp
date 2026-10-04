@@ -1,0 +1,48 @@
+# Machine-checkable part of the backend definition of done (ADR-0006).
+# Runs on every PR and push to main, without path filters: the check is required to merge, and a PR
+# that never triggers it would stay blocked.
+name: Backend CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test-format:
+    name: Build, test and format
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore
+
+      # TreatWarningsAsErrors is on (Directory.Build.props): any warning fails here.
+      - name: Build
+        run: dotnet build --no-restore
+
+      # Integration tests start MySQL with Testcontainers; GitHub's Linux runners ship Docker.
+      # The explicit performance test does not run (shared runners have unstable timings).
+      - name: Test
+        run: dotnet test --no-build
+
+      - name: Check formatting
+        run: dotnet format --verify-no-changes --no-restore
